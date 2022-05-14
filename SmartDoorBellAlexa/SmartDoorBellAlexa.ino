@@ -95,10 +95,12 @@ void startMqtt() {
         Serial.println("- Device is already online. Wait some seconds until it appears offline for the broker");
         Serial.println("- Wrong Username or password. Check credentials");
         Serial.println("- Client Id does not belong to this username, verify ClientId");
+        esp_restart();
 
       } else {
         Serial.println("Not possible to connect to Broker Error code:");
         Serial.print(client.state());
+        esp_restart();
       }
 
       delay(0x7530);
