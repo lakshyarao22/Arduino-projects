@@ -17,6 +17,7 @@ int bellPin = 15;
 int LEDB = 13;
 bool bellTriggered = false;
 int bellReportSend = 0;
+bool firstBoot = true;
 
 int brightness = 0;
 int fadeAmount = 5;
@@ -146,8 +147,9 @@ void checkMqtt() {
 }
 
 void checkBell() {
-  int buttonState = digitalRead(bellPin);
+   int buttonState = digitalRead(bellPin);
   //digitalWrite(lightPin, digitalRead(bellPin));
+  if (firstBoot == false){
   if (buttonState == HIGH && !bellTriggered) {
     return;
 
@@ -162,6 +164,12 @@ void checkBell() {
   } else if (buttonState == LOW && bellTriggered) {
     return;
   }
+} else {
+  firstBoot = false;
+  bellTriggered = true;
+  return;
+  }
+
 }
 
 void sendBellReport() {  //Avoids sending repeated reports. only once every 5 seconds.
@@ -198,9 +206,11 @@ void breathingBlue(){
 void setup() {
   pinMode(bellPin, INPUT_PULLDOWN);
   pinMode(LEDB, OUTPUT);
+  digitalWrite(LEDB, HIGH);
   Serial.begin(115200);
   startWifi();
   startMqtt();
+  digitalWrite(LEDB, LOW);
 }
 
 void loop() {
