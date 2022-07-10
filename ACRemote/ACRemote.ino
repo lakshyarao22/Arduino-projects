@@ -10,7 +10,7 @@
 #define MQTT_PORT 1883                     // Broker port
 #define MQTT_USERNAME "lakshyarao22"           // Username from Smartnest
 #define MQTT_PASSWORD "lakshya22"           // Password from Smartnest (or API key)
-#define MQTT_CLIENT "624ff7e6dd3b74129b7b4db0"            // Device Id from smartnest
+#define MQTT_CLIENT "62922290f8510369f2a1c891"            // Device Id from smartnest
 #define FIRMWARE_VERSION "AC"  // Custom name for this program
 
 WiFiClient espClient;
@@ -155,20 +155,13 @@ void sendToBroker(char* topic, char* message) {
 }
 
 void turnOff() {
-	Serial.printf("Turning off...\n");
-  //digitalWrite(2,HIGH);
   irsend.sendRaw(rawOff,162,38);
 	sendToBroker("report/powerState", "OFF");
-  //digitalWrite(2,LOW);
-
 }
 
 void turnOn() {
-	Serial.printf("Turning on...\n");
-  //digitalWrite(2,HIGH);
   irsend.sendRaw(rawOn,162,38);
 	sendToBroker("report/powerState", "ON");
-  //digitalWrite(2,LOW);
 }
 
 //void codeForTask1( void * parameter ) {
